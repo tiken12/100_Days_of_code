@@ -1,6 +1,6 @@
 #Creating Lists using List Comprehension
 #new_list = [new_item for item in list]
-number = [1, 3, 3]
+number = [1, 2, 3] # I am just trying to add comments to my codes. 
 new_numbers= [n +1 for n in number]
 print(new_numbers)
 
