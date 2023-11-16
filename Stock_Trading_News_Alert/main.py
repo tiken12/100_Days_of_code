@@ -36,16 +36,19 @@ print(day_before_yesterday_closing_price)
 
 #Showing the difference from the two days closing price using absolute value
 difference = float(yesterday_closing_price) - float(day_before_yesterday_closing_price)
+#Showing the if the stock went down or up using emoji symbols ▽△💚🔻💔
 up_down = None
 if difference > 0:
-   up_down = 
+   up_down = "△💚"
+else:
+   up_down ="🔻💔"
 
 # Print the difference in price between closing price yesterday and closing price the day before yesterday.
-diff_percent =(difference / float(yesterday_closing_price))*100
+diff_percent =round((difference / float(yesterday_closing_price))*100)
 print(diff_percent)
 
 # When percentage is greater than 5 the program will use the News API to get articles related to the COMPANY_NAME.
-if diff_percent > 1:
+if abs(diff_percent) > 1:
    news_params = {
       "apikey": NEWS_API_KEY,
       "qInTitle": COMPANY_NAME,
@@ -60,18 +63,14 @@ if diff_percent > 1:
    
    
    #[new_item for item in list]
-   formatted_articles = [f"Headline: {article['title']}. \nBrief: {article['description']}" for article in three_articles]
+   formatted_articles = [f"{STOCK_NAME}: {up_down}{diff_percent} %\n Headline: {article['title']}. \nBrief: {article['description']}" for article in three_articles]
    print(formatted_articles)
 
 
-#TODO 7. - Use Python slice operator to create a list that contains the first 3 articles. Hint: https://stackoverflow.com/questions/509211/understanding-slice-notation
-
-
-    ## STEP 3: Use twilio.com/docs/sms/quickstart/python
-    #to send a separate message with each article's title and description to your phone number. 
-
-#TODO 8. - Create a new list of the first 3 article's headline and description using list comprehension.
+#Create a new list of the first 3 article's headline and description using list comprehension.
    client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+
+# Send each article as a separate message via Twilio.   
    for article in formatted_articles:
       message = client.messages.create(
          body = article,
@@ -80,7 +79,7 @@ if diff_percent > 1:
          
       )
 
-#TODO 9. - Send each article as a separate message via Twilio. 
+
 
 
 
